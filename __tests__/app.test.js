@@ -63,12 +63,17 @@ describe('backend routes', () => {
     const [agent, user] = await registerAndLogin();
     const res = await agent
       .post('/api/v1/secrets')
-      .send({ title: 'secret', description: 'secret, secret' });
+      .send({
+        title: 'secret',
+        description: 'secret, secret',
+        createdAt: 'string',
+      });
 
     expect(res.body).toEqual({
       id: expect.any(String),
       title: 'secret',
       description: 'secret, secret',
+      createdAt: expect.any(String),
     });
   });
   it('list of secrets if signed in', async () => {
@@ -76,6 +81,7 @@ describe('backend routes', () => {
     await agent.post('/api/v1/secrets').send({
       title: 'secret',
       description: 'secret, secret',
+      createdAt: 'string',
     });
 
     const res = await agent.get('/api/v1/secrets');
@@ -85,6 +91,7 @@ describe('backend routes', () => {
         id: expect.any(String),
         title: 'secret',
         description: 'secret, secret',
+        createdAt: expect.any(String),
       },
     ]);
   });
